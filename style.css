@@ -45,7 +45,9 @@ input:focus {
 
 #total {
     background-color: rgb(114, 26, 19);
-    padding: 5px;
+    font-size: 16px;
+    padding: 7px;
+    
     border-radius: 5px;
     margin-left: 30px;
 }
@@ -69,4 +71,27 @@ button:hover {
     background-color: rgb(90, 10, 5);
     letter-spacing: 2px;
     transition: 0.5s;
+}
+
+.btnSearch {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btnSearch button {
+    width: 45%;
+}
+
+table {
+    width: 100%;
+    text-align: center;
+    margin: 20px 0;
+}
+
+table td {
+    text-transform: uppercase;
+}
+
+th, td {
+    padding: 5px;
 }
