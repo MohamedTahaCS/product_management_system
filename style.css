@@ -73,6 +73,9 @@ button:hover {
     transition: 0.5s;
 }
 
+.outputs button {
+    letter-spacing: 1px;
+}
 .btnSearch {
     display: flex;
     justify-content: space-between;

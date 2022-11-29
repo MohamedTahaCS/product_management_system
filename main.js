@@ -41,12 +41,47 @@ submit.onclick = function() {
     // save the data to local storage
     proData.push(product);
     localStorage.setItem('proData', JSON.stringify(proData));
-    console.log(proData)
+    clearData();
+    showData();
 }
 
 
 // clear inputs
+function clearData() {
+    title.value = '';
+    price.value = '';
+    taxes.value = '';
+    ads.value = '';
+    discount.value = '';
+    total.innerHTML = '';
+    count.value = '';
+    category.value = '';
+}
 // read
+function showData() {
+    let table = '';
+    for (let i = 0 ; i < proData.length ; i++) {
+        let product = proData[i];
+        let row = `
+        <tr>
+            <td>${i}</td>
+            <td>${product.title}</td>
+            <td>${product.price}</td>
+            <td>${product.taxes}</td>
+            <td>${product.ads}</td>
+            <td>${product.discount}</td>
+            <td>${product.total}</td>
+            <td>${product.category}</td>
+            <td><button>update</button></td>
+            <td><button>delete</button></td>
+        </tr>
+        `
+        table += row;
+    }
+    document.getElementById('tbody').innerHTML = table;
+}
+
+showData();
 // count
 // delete
 // update

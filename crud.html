@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Document</title>
-        <link rel="stylesheet" href="./style.css">
+        <link rel="stylesheet" href="./style.css" />
     </head>
     <body>
         <div class="cruds">
@@ -14,23 +14,42 @@
             </div>
 
             <div class="inputs">
-                <input placeholder="title" type="text" id="title">
+                <input placeholder="title" type="text" id="title" />
                 <div class="price">
-                    <input onkeyup="getTotal()" type="number" id="price" placeholder="price">
-                    <input onkeyup="getTotal()" type="number" id="taxes" placeholder="taxes">
-                    <input onkeyup="getTotal()" type="number" id="ads" placeholder="ads">
-                    <input onkeyup="getTotal()" type="number" id="discount" placeholder="discount">
+                    <input
+                        onkeyup="getTotal()"
+                        type="number"
+                        id="price"
+                        placeholder="price"
+                    />
+                    <input
+                        onkeyup="getTotal()"
+                        type="number"
+                        id="taxes"
+                        placeholder="taxes"
+                    />
+                    <input
+                        onkeyup="getTotal()"
+                        type="number"
+                        id="ads"
+                        placeholder="ads"
+                    />
+                    <input
+                        onkeyup="getTotal()"
+                        type="number"
+                        id="discount"
+                        placeholder="discount"
+                    />
                     <small id="total"></small>
                 </div>
-                <input placeholder="count" type="number" id="count">
-                <input placeholder="category" type="text" id="category">
+                <input placeholder="count" type="number" id="count" />
+                <input placeholder="category" type="text" id="category" />
                 <button id="submit">Create</button>
             </div>
 
-
             <div class="outputs">
                 <div class="searchBlock">
-                    <input type="text" id="search" placeholder="search">
+                    <input type="text" id="search" placeholder="search" />
                     <div class="btnSearch">
                         <button id="searchTitle">Search By Title</button>
                         <button id="searchCategory">Search By Category</button>
@@ -49,45 +68,7 @@
                         <th>update</th>
                         <th>delete</th>
                     </tr>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>samsung</td>
-                            <td>2000</td>
-                            <td>100</td>
-                            <td>50</td>
-                            <td>100</td>
-                            <td>2100</td>
-                            <td>phone</td>
-                            <td><button id="update">update</button></td>
-                            <td><button id="delete">delete</button></td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>samsung</td>
-                            <td>2000</td>
-                            <td>100</td>
-                            <td>50</td>
-                            <td>100</td>
-                            <td>2100</td>
-                            <td>phone</td>
-                            <td><button id="update">update</button></td>
-                            <td><button id="delete">delete</button></td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>samsung</td>
-                            <td>2000</td>
-                            <td>100</td>
-                            <td>50</td>
-                            <td>100</td>
-                            <td>2100</td>
-                            <td>phone</td>
-                            <td><button id="update">update</button></td>
-                            <td><button id="delete">delete</button></td>
-                        </tr>
-                        
-                    </tbody>
+                    <tbody id="tbody"></tbody>
                 </table>
             </div>
         </div>
