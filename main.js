@@ -72,18 +72,42 @@ function showData() {
             <td>${product.discount}</td>
             <td>${product.total}</td>
             <td>${product.category}</td>
-            <td><button>update</button></td>
-            <td><button>delete</button></td>
+            <td><button id="update">update</button></td>
+            <td><button onclick="deleteData(${i})" id="delete">delete</button></td>
         </tr>
         `
         table += row;
     }
     document.getElementById('tbody').innerHTML = table;
+    let btnDeleteAll = document.getElementById('deleteAll');
+    if (proData.length > 0) {
+        btnDeleteAll.innerHTML = `
+        <button onclick='deleteAll()'>delete All</button>
+        `
+    }
+    else {
+        btnDeleteAll.innerHTML = '';
+    }
 }
 
 showData();
-// count
+
+
 // delete
+function deleteData(i) {
+    console.log(i);
+    localStorage.proData = JSON.stringify(proData);
+    proData.splice(i, 1);
+    showData();
+}
+
+function deleteAll() {
+    localStorage.clearData = {};
+    proData.splice(0);
+    showData();
+}
+
+// count
 // update
 // search
 // clean data
