@@ -45,11 +45,11 @@ input:focus {
 
 #total {
     background-color: rgb(114, 26, 19);
-    font-size: 16px;
-    padding: 7px;
+    font-size: 14px;
+    padding: 5px;
     
     border-radius: 5px;
-    margin-left: 30px;
+    margin-left: 4px;
 }
 
 #total::before{
