@@ -8,6 +8,9 @@ let count = document.getElementById('count');
 let category = document.getElementById('category');
 let submit = document.getElementById('submit');
 
+let mood = 'create';
+let tmp;
+
 // get Total
 function getTotal() {
     if (price.value != '') {
@@ -29,17 +32,32 @@ if (localStorage.proData != null) {
 
 submit.onclick = function() {
     let product = {
-        title: title.value,
+        title: title.value.toLowerCase(),
         price: price.value,
         taxes: taxes.value,
         ads: ads.value,
         discount: discount.value,
         total: total.innerHTML,
         count: count.value,
-        category: category.value
+        category: category.value.toLowerCase()
     }
+    
+    if (mood === 'create') {
+        if (product.count > 1) {
+            for (let i = 0 ; i < product.count ; i++) {
+                proData.push(product);
+            }
+        }
+        else proData.push(product);
+    }
+    else if (mood === 'update') {
+        proData[tmp] = product;
+        mood = 'create';
+        submit.innerHTML = 'create';
+        count.style.display = 'block';
+    }
+    
     // save the data to local storage
-    proData.push(product);
     localStorage.setItem('proData', JSON.stringify(proData));
     clearData();
     showData();
@@ -72,17 +90,18 @@ function showData() {
             <td>${product.discount}</td>
             <td>${product.total}</td>
             <td>${product.category}</td>
-            <td><button id="update">update</button></td>
+            <td><button onclick="updateData(${i})" id="update">update</button></td>
             <td><button onclick="deleteData(${i})" id="delete">delete</button></td>
         </tr>
         `
         table += row;
     }
     document.getElementById('tbody').innerHTML = table;
+    getTotal();
     let btnDeleteAll = document.getElementById('deleteAll');
     if (proData.length > 0) {
         btnDeleteAll.innerHTML = `
-        <button onclick='deleteAll()'>delete All</button>
+        <button onclick='deleteAll()'>delete All(${proData.length})</button>
         `
     }
     else {
@@ -92,22 +111,106 @@ function showData() {
 
 showData();
 
-
 // delete
 function deleteData(i) {
-    console.log(i);
-    localStorage.proData = JSON.stringify(proData);
     proData.splice(i, 1);
+    localStorage.proData = JSON.stringify(proData);
     showData();
 }
 
 function deleteAll() {
-    localStorage.clearData = {};
+    localStorage.proData = '';
     proData.splice(0);
     showData();
 }
 
-// count
 // update
+function updateData(i) {
+    let product = proData[i];
+    title.value = product.title;
+    price.value = product.price;
+    taxes.value = product.taxes;
+    ads.value = product.ads;
+    discount.value = product.discount;
+    getTotal();
+    category.value = product.category;
+    count.style.display = 'none';
+    submit.innerHTML = 'Update';
+    mood = 'update';
+    tmp = i;
+    scroll({
+        top: 0,
+        behavior: "smooth"
+    })
+}
+
 // search
+
+let searchMood = 'title';
+
+function getSearchMood(id) {
+    let search = document.getElementById('search');
+    if (id == 'searchTitle') {
+        searchMood = 'title';
+        search.placeholder = 'Search By Title';
+    }
+    else {
+        searchMood = 'category';
+        search.placeholder = 'Search By Category';
+    }
+    search.focus();
+    search.value = '';
+    showData();
+}
+
+function searchData(value) {
+    value = value.toLowerCase();
+    let table = '';
+    if (searchMood == 'title') {
+        for (let i = 0 ; i < proData.length ; i++) {
+            let product = proData[i];
+            if (product.title.includes(value)) {
+                let row = `
+                <tr>
+                    <td>${i}</td>
+                    <td>${product.title}</td>
+                    <td>${product.price}</td>
+                    <td>${product.taxes}</td>
+                    <td>${product.ads}</td>
+                    <td>${product.discount}</td>
+                    <td>${product.total}</td>
+                    <td>${product.category}</td>
+                    <td><button onclick="updateData(${i})" id="update">update</button></td>
+                    <td><button onclick="deleteData(${i})" id="delete">delete</button></td>
+                </tr>
+                `
+                table += row;
+            }
+        }
+    } else if (searchMood == 'category') {
+        for (let i = 0 ; i < proData.length ; i++) {
+            let product = proData[i];
+            if (product.category.includes(value)) {
+                let row = `
+                <tr>
+                    <td>${i}</td>
+                    <td>${product.title}</td>
+                    <td>${product.price}</td>
+                    <td>${product.taxes}</td>
+                    <td>${product.ads}</td>
+                    <td>${product.discount}</td>
+                    <td>${product.total}</td>
+                    <td>${product.category}</td>
+                    <td><button onclick="updateData(${i})" id="update">update</button></td>
+                    <td><button onclick="deleteData(${i})" id="delete">delete</button></td>
+                </tr>
+                `
+                table += row;
+            }
+        }
+    }
+
+    document.getElementById('tbody').innerHTML = table; 
+}
+
 // clean data
