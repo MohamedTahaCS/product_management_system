@@ -31,6 +31,7 @@ if (localStorage.proData != null) {
 
 
 submit.onclick = function() {
+    
     let product = {
         title: title.value.toLowerCase(),
         price: price.value,
@@ -42,24 +43,26 @@ submit.onclick = function() {
         category: category.value.toLowerCase()
     }
     
-    if (mood === 'create') {
-        if (product.count > 1) {
-            for (let i = 0 ; i < product.count ; i++) {
-                proData.push(product);
+    if (title.value != '' && price.value != '' && category.value != '' && count.value <= 100) {
+        if (mood === 'create') {
+            if (product.count > 1) {
+                for (let i = 0 ; i < product.count ; i++) {
+                    proData.push(product);
+                }
             }
+            else proData.push(product);
         }
-        else proData.push(product);
-    }
-    else if (mood === 'update') {
-        proData[tmp] = product;
-        mood = 'create';
-        submit.innerHTML = 'create';
-        count.style.display = 'block';
+        else if (mood === 'update') {
+            proData[tmp] = product;
+            mood = 'create';
+            submit.innerHTML = 'create';
+            count.style.display = 'block';
+        }
+        clearData();
     }
     
     // save the data to local storage
     localStorage.setItem('proData', JSON.stringify(proData));
-    clearData();
     showData();
 }
 
@@ -82,7 +85,7 @@ function showData() {
         let product = proData[i];
         let row = `
         <tr>
-            <td>${i}</td>
+            <td>${i + 1}</td>
             <td>${product.title}</td>
             <td>${product.price}</td>
             <td>${product.taxes}</td>
@@ -150,14 +153,10 @@ let searchMood = 'title';
 
 function getSearchMood(id) {
     let search = document.getElementById('search');
-    if (id == 'searchTitle') {
-        searchMood = 'title';
-        search.placeholder = 'Search By Title';
-    }
-    else {
-        searchMood = 'category';
-        search.placeholder = 'Search By Category';
-    }
+    if (id == 'searchTitle') searchMood = 'title';
+    else  searchMood = 'category';
+    
+    search.placeholder = `Search By ${searchMood}`
     search.focus();
     search.value = '';
     showData();
@@ -166,47 +165,25 @@ function getSearchMood(id) {
 function searchData(value) {
     value = value.toLowerCase();
     let table = '';
-    if (searchMood == 'title') {
-        for (let i = 0 ; i < proData.length ; i++) {
-            let product = proData[i];
-            if (product.title.includes(value)) {
-                let row = `
-                <tr>
-                    <td>${i}</td>
-                    <td>${product.title}</td>
-                    <td>${product.price}</td>
-                    <td>${product.taxes}</td>
-                    <td>${product.ads}</td>
-                    <td>${product.discount}</td>
-                    <td>${product.total}</td>
-                    <td>${product.category}</td>
-                    <td><button onclick="updateData(${i})" id="update">update</button></td>
-                    <td><button onclick="deleteData(${i})" id="delete">delete</button></td>
-                </tr>
-                `
-                table += row;
-            }
-        }
-    } else if (searchMood == 'category') {
-        for (let i = 0 ; i < proData.length ; i++) {
-            let product = proData[i];
-            if (product.category.includes(value)) {
-                let row = `
-                <tr>
-                    <td>${i}</td>
-                    <td>${product.title}</td>
-                    <td>${product.price}</td>
-                    <td>${product.taxes}</td>
-                    <td>${product.ads}</td>
-                    <td>${product.discount}</td>
-                    <td>${product.total}</td>
-                    <td>${product.category}</td>
-                    <td><button onclick="updateData(${i})" id="update">update</button></td>
-                    <td><button onclick="deleteData(${i})" id="delete">delete</button></td>
-                </tr>
-                `
-                table += row;
-            }
+    
+    for (let i = 0 ; i < proData.length ; i++) {
+        let product = proData[i];
+        if (product[searchMood].includes(value)) {
+            let row = `
+            <tr>
+                <td>${i}</td>
+                <td>${product.title}</td>
+                <td>${product.price}</td>
+                <td>${product.taxes}</td>
+                <td>${product.ads}</td>
+                <td>${product.discount}</td>
+                <td>${product.total}</td>
+                <td>${product.category}</td>
+                <td><button onclick="updateData(${i})" id="update">update</button></td>
+                <td><button onclick="deleteData(${i})" id="delete">delete</button></td>
+            </tr>
+            `
+            table += row;
         }
     }
 
